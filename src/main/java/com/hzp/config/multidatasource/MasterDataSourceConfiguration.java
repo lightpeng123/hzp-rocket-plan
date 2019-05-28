@@ -1,4 +1,4 @@
-package com.hzp.configuration.multidatasource;
+package com.hzp.config.multidatasource;
 
 import javax.sql.DataSource;
 
@@ -10,30 +10,30 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 
 import com.alibaba.druid.pool.DruidDataSource;
 
-
 @Configuration
-@MapperScan(basePackages = "com.hzp.dao.firstslaver", sqlSessionTemplateRef  = "slaverSqlSessionTemplate")
-public class FirstSlaverDataSourceConfiguration {
+@MapperScan(basePackages = "com.hzp.dao.master", sqlSessionTemplateRef  = "masterSqlSessionTemplate")
+public class MasterDataSourceConfiguration {
 
-    @Value("${spring.datasource.firstslaver.driver-class-name}")
+    @Value("${spring.datasource.master.driver-class-name}")
     private String driverClassName;
 
-    @Value("${spring.datasource.firstslaver.url}")
+    @Value("${spring.datasource.master.url}")
     private String url;
 
-    @Value("${spring.datasource.firstslaver.username}")
+    @Value("${spring.datasource.master.username}")
     private String username;
 
-    @Value("${spring.datasource.firstslaver.password}")
+    @Value("${spring.datasource.master.password}")
     private String password;
 
-
-    @Bean(name = "slaverDataSource")
+    @Bean(name = "masterDataSource")
+    @Primary
     public DataSource dataSource() {
         DruidDataSource dataSource = new DruidDataSource();
         dataSource.setDriverClassName(this.driverClassName);
@@ -43,21 +43,24 @@ public class FirstSlaverDataSourceConfiguration {
         return dataSource;
     }
 
-    @Bean(name = "slaverSqlSessionFactory")
-    public SqlSessionFactory sqlSessionFactory(@Qualifier("slaverDataSource") DataSource dataSource) throws Exception {
+    @Bean(name = "masterSqlSessionFactory")
+    @Primary
+    public SqlSessionFactory sqlSessionFactory(@Qualifier("masterDataSource") DataSource dataSource) throws Exception {
         SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
         bean.setDataSource(dataSource);
-        bean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath*:firstslavermapping/*.xml"));
+        bean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath*:mastermapping/*.xml"));
         return bean.getObject();
     }
 
-    @Bean(name = "slaverTransactionManager")
-    public DataSourceTransactionManager transactionManager(@Qualifier("slaverDataSource") DataSource dataSource) {
+    @Bean(name = "masterTransactionManager")
+    @Primary
+    public DataSourceTransactionManager transactionManager(@Qualifier("masterDataSource") DataSource dataSource) {
         return new DataSourceTransactionManager(dataSource);
     }
 
-    @Bean(name = "slaverSqlSessionTemplate")
-    public SqlSessionTemplate sqlSessionTemplate(@Qualifier("slaverSqlSessionFactory") SqlSessionFactory sqlSessionFactory) throws Exception {
+    @Bean(name = "masterSqlSessionTemplate")
+    @Primary
+    public SqlSessionTemplate sqlSessionTemplate(@Qualifier("masterSqlSessionFactory") SqlSessionFactory sqlSessionFactory) throws Exception {
         return new SqlSessionTemplate(sqlSessionFactory);
     }
 
