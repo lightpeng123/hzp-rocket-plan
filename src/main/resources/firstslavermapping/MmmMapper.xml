@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hzp.dao.firstslaver.MmmMapper">
+  <resultMap id="BaseResultMap" type="com.hzp.model.firstslaver.Mmm">
+    <result column="months" jdbcType="VARCHAR" property="months" />
+    <result column="register_num" jdbcType="INTEGER" property="registerNum" />
+    <result column="total" jdbcType="VARCHAR" property="total" />
+  </resultMap>
+  <insert id="insert" parameterType="com.hzp.model.firstslaver.Mmm">
+    insert into mmm (months, register_num, total
+      )
+    values (#{months,jdbcType=VARCHAR}, #{registerNum,jdbcType=INTEGER}, #{total,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.hzp.model.firstslaver.Mmm">
+    insert into mmm
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="months != null">
+        months,
+      </if>
+      <if test="registerNum != null">
+        register_num,
+      </if>
+      <if test="total != null">
+        total,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="months != null">
+        #{months,jdbcType=VARCHAR},
+      </if>
+      <if test="registerNum != null">
+        #{registerNum,jdbcType=INTEGER},
+      </if>
+      <if test="total != null">
+        #{total,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>
