@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+    <!--本机数据库驱动jar包存放目录-->
+    <classPathEntry    location="E:\mavenRepo\mysql\mysql-connector-java\8.0.13\mysql-connector-java-8.0.13.jar"/>
+    <context id="DB2Tables"    targetRuntime="MyBatis3">
+        <commentGenerator>
+            <property name="suppressDate" value="true"/>
+            <!-- 是否去除自动生成的注释 true：是 ： false:否 -->
+            <property name="suppressAllComments" value="true"/>
+        </commentGenerator>
+        <!--数据库驱动，数据库地址及表名，账号，密码-->
+        <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver" connectionURL="jdbc:mysql://127.0.0.1:3306/shiro_test?useUnicode=true&amp;characterEncoding=utf8&amp;zeroDateTimeBehavior=convertToNull&amp;useSSL=true&amp;serverTimezone=GMT%2B8"    userId="root" password="123456">
+            <!--MySQL 8.x 需要指定服务器的时区-->
+            <!--<property name="serverTimezone" value="UTC"/>-->
+            <!--MySQL 不支持 schema 或者 catalog 所以需要添加这个,指定生成哪个数据库下的表-->
+            <!--参考 : http://www.mybatis.org/generator/usage/mysql.html-->
+            <property name="nullCatalogMeansCurrent" value="true"/>
+        </jdbcConnection>
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="false"/>
+        </javaTypeResolver>
+        <!--生成Model类的包名及存放位置-->
+        <javaModelGenerator targetPackage="com.hzp.model.master" targetProject="src/main/java">
+            <property name="enableSubPackages" value="true"/>
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+        <!--生成映射文件的包名及存放位置-->
+        <sqlMapGenerator targetPackage="mastermapping" targetProject="src/main/resources">
+            <property name="enableSubPackages" value="true"/>
+        </sqlMapGenerator>
+        <!--生成Dao类的包名及存放位置-->
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.hzp.dao.master" targetProject="src/main/java">
+            <property name="enableSubPackages" value="true"/>
+        </javaClientGenerator>
+        <!--生成对应表及类名,domainObjectName是设置实体类的名字的, 使用catlog属性，同时在table标签中加入property name=“ignoreQualifiersAtRuntime” value=“true” ：指定哪个数据库下的表-->
+       <!--<table tableName="user" catalog="shiro_test" domainObjectName="User" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">-->
+        <table tableName="user" domainObjectName="User" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+
+        <!--  <property name="useActualColumnNames" value="true" /> -->
+           <!--<property name="ignoreQualifiersAtRuntime" value="true"/>-->
+           <!--<generatedKey column="id" sqlStatement="JDBC" />-->
+       </table>
+        <table tableName="role" domainObjectName="Role" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+
+        <!--<table tableName="city" domainObjectName="City" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>-->
+        <!--<table tableName="people" domainObjectName="People" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>-->
+    </context>
+</generatorConfiguration>
