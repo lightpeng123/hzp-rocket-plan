@@ -19,4 +19,6 @@ spring:
       username: tnmes
       password: tianneng
 
-
+logging:
+  config: classpath:logback-spring.xml
+  path: F:/hzp-rocket-plan/logs/
