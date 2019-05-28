@@ -88,6 +88,12 @@
             <scope>compile</scope>
         </dependency>
         <!-- logback end -->
+        <!-- AOP支持 start -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+        <!-- AOP支持 end -->
     </dependencies>
 
     <build>
